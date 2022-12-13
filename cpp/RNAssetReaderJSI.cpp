@@ -26,13 +26,11 @@ void install(Runtime &jsiRuntime, std::shared_ptr<CallInvoker> callInvoker) {
 	jsiRuntime.global().setProperty(jsiRuntime, moduleName,  std::move(object));
 }
 
-
 static Value read(Runtime &rt, TurboModule &turboModule,
 						 const Value *args, size_t arg_count){
 	
 	return 10;
 };
-
 
 RNAssetReaderTurboModule::RNAssetReaderTurboModule(Runtime &jsiRuntime, std::shared_ptr <CallInvoker> jsInvoker) : TurboModule("RNAssetReaderTurboModule", jsInvoker){
 	methodMap_["read"] = MethodMetadata{0, read};

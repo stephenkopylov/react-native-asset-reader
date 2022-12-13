@@ -17,7 +17,6 @@ void install(Runtime & jsiRuntime, std::shared_ptr<CallInvoker> callInvoker) ;
 class JSI_EXPORT RNAssetReaderTurboModule : public facebook::react::TurboModule {
 public:
 	RNAssetReaderTurboModule(Runtime &jsiRuntime, std::shared_ptr <CallInvoker> jsInvoker);
-	~RNAssetReaderTurboModule();
 private:
 };
 };
