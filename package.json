@@ -1,0 +1,23 @@
+{
+  "name": "react-native-asset-reader",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.tsx",
+  "types": "src/index.ts",
+  "publishConfig": {
+    "registry": "https://npmjs.eoadm.com"
+  },
+  "keywords": [
+    "react-native"
+  ],
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  },
+  "peerDependencies": {
+    "@types/react": "*",
+    "react": "*",
+    "react-native": "*"
+  }
+}
