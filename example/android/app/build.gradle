@@ -269,10 +269,6 @@ dependencies {
         exclude group:'com.facebook.flipper'
     }
 
-    implementation(project(':react-native-asset-reader')) { //important for JSI
-        exclude group: 'com.facebook.fbjni'
-    }
-
     if (enableHermes) {
         //noinspection GradleDynamicVersion
         implementation("com.facebook.react:hermes-engine:+") { // From node_modules

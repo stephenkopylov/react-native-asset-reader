@@ -32,6 +32,7 @@ android {
     }
     configurations {
         all*.exclude module: 'fbjni-java-only' //important for JSI
+        all*.exclude group: 'com.facebook.fbjni'
     }
 
     compileSdkVersion 29
