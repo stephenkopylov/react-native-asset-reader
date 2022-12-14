@@ -56,17 +56,23 @@ namespace RNAssetReaderJSI {
         return String::createFromUtf8(rt, buffer.str());
     };
 #elif __ANDROID__
-
     static Value read(Runtime &rt, TurboModule &turboModule,
                       const Value *args, size_t arg_count) {
         const char *mPath = "main.json";
-        printLog("1");
-        printLog("2");
-        AAsset *mAsset = AAssetManager_open(assetReaderStorageInstance.assetsManager, mPath,
-                                            AASSET_MODE_BUFFER);
-        printLog("3");
-        AAsset_close(mAsset);
-        return 10;
+        AAsset *asset = AAssetManager_open(assetReaderStorageInstance.assetsManager, mPath,
+                                           AASSET_MODE_BUFFER);
+        if (asset == NULL) {
+            return 0;
+        }
+        long size = AAsset_getLength(asset);
+        char *buffer = (char *) malloc(sizeof(char) * size);
+        AAsset_read(asset, buffer, size);
+
+        std::string str(buffer);
+
+        AAsset_close(asset);
+
+        return String::createFromUtf8(rt, buffer);
     }
 
 #endif
