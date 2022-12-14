@@ -1,4 +1,4 @@
-package com.eo.RNExpertOptionMobileSocket;
+package com.ibit.RNAssetReader;
 
 import android.util.Log;
 
@@ -11,9 +11,9 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.turbomodule.core.CallInvokerHolderImpl;
 
-@ReactModule(name = RNExpertOptionMobileSocketModule.NAME)
-public class RNExpertOptionMobileSocketModule extends ReactContextBaseJavaModule {
-  public static final String NAME = "RNExpertOptionMobileSocket";
+@ReactModule(name = RNAssetReaderModule.NAME)
+public class RNAssetReaderModule extends ReactContextBaseJavaModule {
+  public static final String NAME = "RNAssetReader";
   static {
     System.loadLibrary(NAME);
   }
@@ -36,12 +36,12 @@ public class RNExpertOptionMobileSocketModule extends ReactContextBaseJavaModule
       this.installJsi(getReactApplicationContext());
     } else {
       Log.w(
-              "[Socket]",
-              "Unable to create RNExpertOptionMobileSocketModule. You can ignore this message if you are using Chrome Debugger now.");
+              "[AssetReader]",
+              "Unable to create RNAssetReader. You can ignore this message if you are using Chrome Debugger now.");
     }
   }
 
-  public RNExpertOptionMobileSocketModule(ReactApplicationContext reactContext) {
+  public RNAssetReaderModule(ReactApplicationContext reactContext) {
     super(reactContext);
   }
 

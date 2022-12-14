@@ -1,8 +1,11 @@
 #include "RNAssetReaderJSI.hpp"
 #include <string>
+
+#ifdef __APPLE__
 #include <CoreFoundation/CoreFoundation.h>
 #include <fstream>
 #include <sstream>
+#endif
 
 //#ifdef __ANDROID__
 //
@@ -29,6 +32,7 @@ void install(Runtime &jsiRuntime, std::shared_ptr<CallInvoker> callInvoker) {
 	jsiRuntime.global().setProperty(jsiRuntime, moduleName,  std::move(object));
 }
 
+#ifdef __APPLE__
 static Value read(Runtime &rt, TurboModule &turboModule,
 						 const Value *args, size_t arg_count){
 	CFURLRef manifest_url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("main"), CFSTR("json"), NULL);
@@ -44,6 +48,13 @@ static Value read(Runtime &rt, TurboModule &turboModule,
 	
 	return String::createFromUtf8(rt, buffer.str());
 };
+#elif __ANDROID__
+static Value read(Runtime &rt, TurboModule &turboModule,
+				  const Value *args, size_t arg_count){
+	return 10;
+}
+#endif
+
 
 RNAssetReaderTurboModule::RNAssetReaderTurboModule(Runtime &jsiRuntime, std::shared_ptr <CallInvoker> jsInvoker) : TurboModule("RNAssetReaderTurboModule", jsInvoker){
 	methodMap_["read"] = MethodMetadata{0, read};
