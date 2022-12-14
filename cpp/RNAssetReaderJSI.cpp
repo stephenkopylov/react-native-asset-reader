@@ -43,7 +43,11 @@ namespace RNAssetReaderJSI {
 		std::string filename = args[0].getString(rt).utf8(rt);
 		
 #ifdef __APPLE__
-        CFURLRef manifest_url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("123"), CFSTR("json"), NULL);
+		CFStringRef ref = CFStringCreateWithCString(kCFAllocatorDefault, filename.c_str(), kCFStringEncodingUTF8);
+		
+        CFURLRef manifest_url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), ref, CFSTR("json"), NULL);
+		
+		CFRelease(ref);
 		if(manifest_url == NULL){
 			return 0;
 		}
@@ -60,9 +64,7 @@ namespace RNAssetReaderJSI {
 
         return String::createFromUtf8(rt, buffer.str());
 #elif __ANDROID__
-        const char *mPath = "main.json";
-        AAsset *asset = AAssetManager_open(assetReaderStorageInstance.assetsManager, mPath,
-                                           AASSET_MODE_BUFFER);
+        AAsset *asset = AAssetManager_open(assetReaderStorageInstance.assetsManager, std::string(filename+".json").c_str(),AASSET_MODE_BUFFER);
         if (asset == NULL) {
             return 0;
         }
