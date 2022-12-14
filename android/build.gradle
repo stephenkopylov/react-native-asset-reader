@@ -18,9 +18,20 @@ def safeExtGet(prop, fallback) {
     rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
 }
 
-def reactNativeLocation = safeExtGet("REACT_NATIVE_NODE_MODULES_DIR", null)
+def resolveReactNativeDirectory() {
+    def reactNativeFromNodeModules = file("${projectDir}/../../react-native")
+    if (reactNativeFromNodeModules.exists()) {
+        return reactNativeFromNodeModules
+    }
+    def reactNativeFromMonorepo = file("${projectDir}/../../../node_modules/react-native")
+    if (reactNativeFromMonorepo.exists()) {
+        return reactNativeFromMonorepo
+    }
+}
 
-def reactNativeRootDir = "/Users/stepankopylov/prj/react-native-asset-reader/example/node_modules/react-native"
+
+def reactNativeRootDir = resolveReactNativeDirectory().path
+
 
 android {
     // See https://github.com/facebookincubator/fbjni/issues/50
@@ -31,8 +42,7 @@ android {
         implementation 'com.facebook.fbjni:fbjni:0.3.0' //important for JSI
     }
     configurations {
-//        all*.exclude module: 'fbjni-java-only' //important for JSI
-        all*.exclude group: 'com.facebook.fbjni'
+       all*.exclude module: 'fbjni-java-only' //important for JSI
     }
 
     compileSdkVersion 29
