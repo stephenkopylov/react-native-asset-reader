@@ -1,5 +1,6 @@
 package com.ibit.RNAssetReader;
 
+import android.content.res.AssetManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -18,13 +19,14 @@ public class RNAssetReaderModule extends ReactContextBaseJavaModule {
     System.loadLibrary(NAME);
   }
 
-  private native void installNativeJsi(long jsContextNativePointer, CallInvokerHolderImpl jsCallInvokerHolder);
+  private native void installNativeJsi(long jsContextNativePointer, CallInvokerHolderImpl jsCallInvokerHolder, AssetManager assetMgr);
 
   public void installJsi(@NonNull ReactContext context) {
+    AssetManager assetMgr = context.getAssets();
     CallInvokerHolderImpl holder = (CallInvokerHolderImpl)context.getCatalystInstance().getJSCallInvokerHolder();
     long contextPointer = context.getJavaScriptContextHolder().get();
     if (contextPointer != 0) {
-      installNativeJsi(contextPointer, holder);
+      installNativeJsi(contextPointer, holder, assetMgr);
     }
   }
 
