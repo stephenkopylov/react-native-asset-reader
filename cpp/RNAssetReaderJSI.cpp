@@ -37,10 +37,13 @@ namespace RNAssetReaderJSI {
         jsiRuntime.global().setProperty(jsiRuntime, moduleName, std::move(object));
     }
 
-#ifdef __APPLE__
-    static Value read(Runtime &rt, TurboModule &turboModule,
+
+    static Value readJson(Runtime &rt, TurboModule &turboModule,
                              const Value *args, size_t arg_count){
-        CFURLRef manifest_url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("main123"), CFSTR("json"), NULL);
+		std::string filename = args[0].getString(rt).utf8(rt);
+		
+#ifdef __APPLE__
+        CFURLRef manifest_url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("123"), CFSTR("json"), NULL);
 		if(manifest_url == NULL){
 			return 0;
 		}
@@ -56,10 +59,7 @@ namespace RNAssetReaderJSI {
         buffer << myfile.rdbuf();
 
         return String::createFromUtf8(rt, buffer.str());
-    };
 #elif __ANDROID__
-    static Value read(Runtime &rt, TurboModule &turboModule,
-                      const Value *args, size_t arg_count) {
         const char *mPath = "main.json";
         AAsset *asset = AAssetManager_open(assetReaderStorageInstance.assetsManager, mPath,
                                            AASSET_MODE_BUFFER);
@@ -76,12 +76,13 @@ namespace RNAssetReaderJSI {
         AAsset_close(asset);
 
         return String::createFromUtf8(rt, buffer);
-    }
 #endif
+    }
+
 
     RNAssetReaderTurboModule::RNAssetReaderTurboModule(Runtime &jsiRuntime,
                                                        std::shared_ptr<CallInvoker> jsInvoker)
             : TurboModule("RNAssetReaderTurboModule", jsInvoker) {
-        methodMap_["read"] = MethodMetadata{0, read};
+        methodMap_["readJson"] = MethodMetadata{0, readJson};
     }
 }

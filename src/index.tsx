@@ -1,13 +1,13 @@
-import { NativeModules } from 'react-native';
+import {NativeModules} from 'react-native';
 
 // @ts-ignore
 if (global.RNAssetReaderTurboModule === undefined) {
-  NativeModules.RNAssetReader.installTurboModule();
+    NativeModules.RNAssetReader.installTurboModule();
 }
 
 export class RNAssetReader {
-  static read(): any {
-    // @ts-ignore
-    return global.RNAssetReaderTurboModule.read();
-  }
+    static readJson(filename: string): any {
+        // @ts-ignore
+        return global.RNAssetReaderTurboModule.readJson(filename);
+    }
 }
