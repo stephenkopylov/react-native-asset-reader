@@ -14,6 +14,5 @@ Pod::Spec.new do |s|
   s.source_files  = "ios/RNAssetReader/*.{h,m,mm}", "cpp/*.{hpp,cpp,h,c}"
   s.dependency 'React'
 	s.dependency "ReactCommon"
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
 end
 
