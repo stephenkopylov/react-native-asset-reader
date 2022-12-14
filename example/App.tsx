@@ -65,7 +65,7 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const test = RNAssetReader.read();
+  const test = JSON.parse(RNAssetReader.read());
 
   console.log('test ', test);
 
