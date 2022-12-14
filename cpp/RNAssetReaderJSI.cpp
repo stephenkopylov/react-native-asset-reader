@@ -29,8 +29,6 @@ void RNAssetReaderStorage::init(AAssetManager *cAssetsManager) {
 #define printLog(...) printf(__VA_ARGS__)
 #endif
 
-//static int callbackId = 0;
-
 namespace RNAssetReaderJSI {
     void install(Runtime &jsiRuntime, std::shared_ptr<CallInvoker> callInvoker) {
         auto moduleName = "RNAssetReaderTurboModule";
@@ -42,7 +40,11 @@ namespace RNAssetReaderJSI {
 #ifdef __APPLE__
     static Value read(Runtime &rt, TurboModule &turboModule,
                              const Value *args, size_t arg_count){
-        CFURLRef manifest_url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("main"), CFSTR("json"), NULL);
+        CFURLRef manifest_url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("main123"), CFSTR("json"), NULL);
+		if(manifest_url == NULL){
+			return 0;
+		}
+		
         char manifest_path[PATH_MAX];
 
         CFURLGetFileSystemRepresentation(manifest_url, true, (UInt8 *)manifest_path, PATH_MAX);
@@ -64,6 +66,7 @@ namespace RNAssetReaderJSI {
         if (asset == NULL) {
             return 0;
         }
+		
         long size = AAsset_getLength(asset);
         char *buffer = (char *) malloc(sizeof(char) * size);
         AAsset_read(asset, buffer, size);
@@ -74,9 +77,7 @@ namespace RNAssetReaderJSI {
 
         return String::createFromUtf8(rt, buffer);
     }
-
 #endif
-
 
     RNAssetReaderTurboModule::RNAssetReaderTurboModule(Runtime &jsiRuntime,
                                                        std::shared_ptr<CallInvoker> jsInvoker)
